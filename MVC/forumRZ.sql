@@ -1,39 +1,50 @@
-CREATE TABLE USER_FORUM(
-   id_user INT,
+CREATE DATABASE IF NOT EXISTS `forumRZ`
+USE `forumRZ`;
+
+CREATE TABLE IF NOT EXISTS `user`(
+   id_user INT NOT NULL AUTO_INCREMENT,
    nickname_user CHAR(25) NOT NULL,
    mail_user VARCHAR(50) NOT NULL,
-   password_user CHAR(255) NOT NULL,
-   date_inscription_user DATE NOT NULL,
-   PRIMARY KEY(id_user),
-   UNIQUE(nickname_user)
-);
+   password_user VARCHAR(255) NOT NULL,
+   date_user DATETIME DEFAULT CURRENT_TIMESTAMP,
+   PRIMARY KEY(id_user)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-CREATE TABLE CATEGORIE(
-   id_categorie INT,
-   name_categorie VARCHAR(50),
-   PRIMARY KEY(id_categorie)
-);
+CREATE TABLE IF NOT EXISTS `category`(
+   id_category INT NOT NULL AUTO_INCREMENT,
+   name_category VARCHAR(50),
+   PRIMARY KEY(id_category)
+)ENGINE=InnoDB AUTO_INCREMENT=5 CHARSET=utf8 COLLATE=utf8_general_ci;
 
-CREATE TABLE TOPIC_FORUM(
-   id_topic INT AUTOINCREMENT,
-   title_topic CHAR(50) NOT NULL,
-   creator_topic INT NOT NULL AUTOINCREMENT,
-   date_topic DATE NOT NULL,
-   id_categorie INT NOT NULL,
-   id_user INT NOT NULL,
+INSERT INTO `category` (`id_category`, `name_category`) VALUES
+	(1, 'Games'),
+	(2, 'News'),
+	(3, 'Art'),
+	(4, 'Politics');
+	
+
+CREATE TABLE IF NOT EXISTS `topic`(
+   id_topic INT NOT NULL AUTO_INCREMENT,
+   title_topic VARCHAR(150) NOT NULL DEFAULT '',
+   date_topic DATETIME DEFAULT CURRENT_TIMESTAMP,
+   category_id INT NOT NULL,
+   user_id INT NOT NULL,
    PRIMARY KEY(id_topic),
-   FOREIGN KEY(id_categorie) REFERENCES CATEGORIE(id_categorie),
-   FOREIGN KEY(id_user) REFERENCES USER_FORUM(id_user)
-);
+   KEY `FK_topic_category` (`category_id`),
+   KEY `FK_topic_users` (`user_id`),
+   CONSTRAINT `FK_topic_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id_category`),
+   CONSTRAINT `FK_topic_users` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-CREATE TABLE MESSAGE(
-   id_message INT AUTOINCREMENT,
-   date_message DATE NOT NULL,
-   creator_message INT NOT NULL,
+CREATE TABLE `message`(
+   id_message INT NOT NULL AUTO_INCREMENT,
+   date_message DATETIME DEFAULT CURRENT_TIMESTAMP,
    text_message TEXT NOT NULL,
-   id_topic INT NOT NULL,
-   id_user INT NOT NULL,
+   topic_id INT NOT NULL,
+   user_id INT NOT NULL,
    PRIMARY KEY(id_message),
-   FOREIGN KEY(id_topic) REFERENCES TOPIC_FORUM(id_topic),
-   FOREIGN KEY(id_user) REFERENCES USER_FORUM(id_user)
-);
+   KEY `user_id` (`user_id`),
+   KEY `topic_id` (`topic_id`),
+   CONSTRAINT `FK_post_topic` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id_topic`),
+   CONSTRAINT `FK_post_users` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
