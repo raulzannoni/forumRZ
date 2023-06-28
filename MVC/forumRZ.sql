@@ -48,3 +48,15 @@ CREATE TABLE `message`(
    CONSTRAINT `FK_post_topic` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id_topic`),
    CONSTRAINT `FK_post_users` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `like` (
+   `id_like` int NOT NULL AUTO_INCREMENT,
+   `user_id` int NOT NULL,
+   `message_id` int NOT NULL,
+   `type_like` int NOT NULL,
+   PRIMARY KEY (`id_like`) USING BTREE,
+   KEY `user_id` (`user_id`),
+   KEY `message_id` (`message_id`),
+   CONSTRAINT `FK__message` FOREIGN KEY (`message_id`) REFERENCES `message` (`id_message`),
+   CONSTRAINT `FK__user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 CHARSET=utf8 COLLATE=utf8_general_ci;
