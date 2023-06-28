@@ -31,7 +31,7 @@
 			$filepath = BASE_DIR.$path.DS.$file;
 			//$filepath = model/managers/VehiculeManager.php
 			if(file_exists($filepath)){
-              
+            
 				require $filepath;
 			}
 			
