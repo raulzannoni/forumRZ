@@ -36,13 +36,13 @@ CREATE TABLE IF NOT EXISTS `topic`(
    CONSTRAINT `FK_topic_users` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-CREATE TABLE `message`(
-   id_message INT NOT NULL AUTO_INCREMENT,
-   date_message DATETIME DEFAULT CURRENT_TIMESTAMP,
-   text_message TEXT NOT NULL,
+CREATE TABLE IF NOT EXISTS `post`(
+   id_post INT NOT NULL AUTO_INCREMENT,
+   date_post DATETIME DEFAULT CURRENT_TIMESTAMP,
+   text_post TEXT NOT NULL,
    topic_id INT NOT NULL,
    user_id INT NOT NULL,
-   PRIMARY KEY(id_message),
+   PRIMARY KEY(id_post),
    KEY `user_id` (`user_id`),
    KEY `topic_id` (`topic_id`),
    CONSTRAINT `FK_post_topic` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id_topic`),
@@ -52,11 +52,11 @@ CREATE TABLE `message`(
 CREATE TABLE IF NOT EXISTS `like` (
    `id_like` int NOT NULL AUTO_INCREMENT,
    `user_id` int NOT NULL,
-   `message_id` int NOT NULL,
+   `post_id` int NOT NULL,
    `type_like` int NOT NULL,
    PRIMARY KEY (`id_like`) USING BTREE,
    KEY `user_id` (`user_id`),
-   KEY `message_id` (`message_id`),
-   CONSTRAINT `FK__message` FOREIGN KEY (`message_id`) REFERENCES `message` (`id_message`),
+   KEY `post_id` (`post_id`),
+   CONSTRAINT `FK__post` FOREIGN KEY (`post_id`) REFERENCES `post` (`id_post`),
    CONSTRAINT `FK__user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 CHARSET=utf8 COLLATE=utf8_general_ci;
