@@ -39,12 +39,13 @@ CREATE TABLE IF NOT EXISTS `topic`(
    KEY `FK_topic_users` (`user_id`),
    CONSTRAINT `FK_topic_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id_category`),
    CONSTRAINT `FK_topic_users` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
-)ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+)ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `topic` (`id_topic`, `title_topic`, `date_topic`, `category_id`, `user_id`) VALUES
-   (1, 'Title Topic 1', '2023-06-29 09:01:35', 1, 2),
-   (2, 'Title Topic 2', '2023-06-29 09:22:23', 2, 1),
-   (3, 'Title Topic 3', '2023-06-29 10:37:51', 3, 3);
+   (1, 'Title Topic 1->games', '2023-06-29 09:01:35', 1, 2),
+   (2, 'Title Topic 2->news', '2023-06-29 09:22:23', 2, 1),
+   (3, 'Title Topic 3->art', '2023-06-29 10:37:51', 3, 3),
+   (4, 'Title Topic 4->politics', '2023-06-29 10:41:00', 4, 1);
 
 
 CREATE TABLE IF NOT EXISTS `post`(
@@ -58,7 +59,18 @@ CREATE TABLE IF NOT EXISTS `post`(
    KEY `topic_id` (`topic_id`),
    CONSTRAINT `FK_post_topic` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id_topic`),
    CONSTRAINT `FK_post_users` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
-)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+)ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+INSERT INTO `post` (`id_post`, `date_post`, `text_post`, `topic_id`, `user_id`) VALUES
+   (1, '2023-06-29 11:02:35', '1st text for games, topic 1', 1, 2),
+   (2, '2023-06-29 12:31:03', 'answer to topic 1', 1, 3),
+   (3, '2023-06-29 10:02:35', '1st text for news, topic 2', 2, 1),
+   (4, '2023-06-29 10:03:31', 'answer to topic 2', 2, 2),
+   (5, '2023-06-29 10:04:32', '1st text for art, topic 3', 3, 3),
+   (6, '2023-06-29 10:05:33', 'answer to topic 3', 3, 1),
+   (7, '2023-06-29 10:06:38', '1st text for politics, topic 4', 2, 1),
+   (8, '2023-06-29 10:07:39', 'answer to topic 4', 2, 3);
+
 
 CREATE TABLE IF NOT EXISTS `like` (
    `id_like` int NOT NULL AUTO_INCREMENT,

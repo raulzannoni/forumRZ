@@ -28,7 +28,6 @@
                 $this->className
             );
         }
-       
         public function findOneById($id){
 
             $sql = "SELECT *

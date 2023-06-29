@@ -8,11 +8,9 @@
         private $name;
         private $nbTopics;
 
-
         public function __construct($data){         
             $this->hydrate($data);        
         }
- 
 
         public function getId(){
                 return $this->id;
@@ -23,7 +21,6 @@
                 return $this;
         }
 
-
         public function getName(){
                 return $this->name;
         }
@@ -32,7 +29,6 @@
                 $this->name = $name;
                 return $this;
         }
-
 
         public function getNbrTopics(){
 

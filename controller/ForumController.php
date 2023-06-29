@@ -5,6 +5,7 @@
     use App\Session;
     use App\AbstractController;
     use App\ControllerInterface;
+    use Model\Managers\UserManager;
     use Model\Managers\TopicManager;
     use Model\Managers\PostManager;
     use Model\Managers\CategoryManager;
@@ -19,9 +20,10 @@
                 "view" => VIEW_DIR."forum/listTopics.php",
                 "data" => [
                     "categories" => $categoryManager->findAll(["name_category", "DESC"]),
-                    "topics" => $topicManager->findAll(["date_topic", "DESC"]),
+                    "topics" => $topicManager->findAll(["title_topic", "ASC"]),
+                    //"posts" => $postManager->findAll(),
                     "totalCountTopics" => $topicManager->getTotalCountTopics(),
-                    "title" => "Topics list"
+                    "title" => "List of Topics"
                 ]
             ];
         }
