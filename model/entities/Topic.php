@@ -10,6 +10,8 @@
         private $user;
         private $creationdate;
         private $closed;
+        private $category;
+        private $nbPosts;
 
         public function __construct($data){         
             $this->hydrate($data);        
@@ -88,8 +90,7 @@
         /**
          * Get the value of closed
          */ 
-        public function getClosed()
-        {
+        public function getClosed(){
                 return $this->closed;
         }
 
@@ -98,10 +99,18 @@
          *
          * @return  self
          */ 
-        public function setClosed($closed)
-        {
+        public function setClosed($closed){
                 $this->closed = $closed;
 
                 return $this;
         }
-    }
+
+        public function getNbPosts(){
+                return $this->nbPosts;
+        }
+
+        public function setNbPosts($nbPosts){
+                $this->nbPosts = $nbPosts;
+                return $this;
+        }
+}

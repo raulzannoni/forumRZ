@@ -18,7 +18,7 @@
             return [
                 "view" => VIEW_DIR."forum/listTopics.php",
                 "data" => [
-                    "categories" => $categoryManager->findAll("name_category", "DESC"),
+                    "categories" => $categoryManager->findAll(["name_category", "DESC"]),
                     "topics" => $topicManager->findAll(["date_topic", "DESC"]),
                     "totalCountTopics" => $topicManager->getTotalCountTopics(),
                     "title" => "Topics list"
@@ -26,7 +26,7 @@
             ];
         }
 
-        
+
 
         
 
