@@ -21,8 +21,8 @@
                 "view" => VIEW_DIR."forum/listTopics.php",
                 "data" => [
                     "categories" => $categoryManager->findAll(["name_category", "DESC"]),
-                    "topics" => $topicManager->findAllAndCount(),
-                    //"posts" => $postManager->findAll(),
+                    "topics" => $topicManager->findAll(["date_topic", "DESC"]),
+                    "posts" => $postManager->findAll(["date_post", "DESC"]),
                     "totalCountTopics" => $topicManager->getTotalCountTopics(),
                     "title" => "List of Topics"
                 ]

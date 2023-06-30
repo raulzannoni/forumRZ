@@ -15,15 +15,16 @@ var_dump($topics);
     <h1 class="titleUnderline">List of Topics</h1>
         <div class="topicsDiv">
             <?php
-            /*
+            
+            
             foreach($topics as $topic){
                 var_dump($topic);
                 
                 ?>
-                <p><?=$topic->getName()?></p>
+                <p><?=$topic->getTitle()?></p>
                 <?php
             }
-            */
+            
             ?>
         </div>
 </div>

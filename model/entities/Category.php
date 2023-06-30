@@ -9,7 +9,7 @@
         private $nbTopics;
 
         public function __construct($data){         
-            $this->hydrate($data);        
+             $this->hydrate($data);        
         }
 
         public function getId(){
