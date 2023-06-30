@@ -30,12 +30,12 @@
                 return $this;
         }
 
-        public function getNbrTopics(){
+        public function getNbTopics(){
 
                 return $this->nbTopics;
         }
 
-        public function setNbrTopics($nbTopics) {
+        public function setNbTopics($nbTopics) {
 
                 $this->nbTopics = $nbTopics;
                 return $this;

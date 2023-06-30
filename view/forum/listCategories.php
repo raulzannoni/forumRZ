@@ -12,12 +12,27 @@ var_dump($categories);
             <?php
             
             foreach($categories as $category){
-                var_dump($category);
-                
-                ?>
-                <p><?=$category->getName()?></p>
-                <?php
-            }
+                if($category->getNbTopics() > 0) {
+                    ?>
+                    <a class="categoryLink" href="" ><?=ucfirst($category->getName())?>
+                        <br class="displayedPc">
+                            <span class="opacityPc">(</span>
+                                <?= $category->getNbTopics() ?>
+                            <span class="opacityPc">)</span>
+                        <br>
+                    </a>
+                    <?php
+                    }
+                else {
+                    ?>
+                    <p class="categoryLinkDisabled"><?= ucfirst($category->getName())?>
+                        <br class="displayedPc">
+                            <span class="opacityPc">(</span>
+                                <?= $category->getNbTopics() ?>
+                            <span class="opacityPc">)</span></p>
+                    <?php
+                    }
+                }
             
             ?>
         </div>

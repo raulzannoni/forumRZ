@@ -15,12 +15,13 @@
 
             $topicManager = new TopicManager();
             $categoryManager = new CategoryManager();
+            $postManager = new PostManager();
 
             return [
                 "view" => VIEW_DIR."forum/listTopics.php",
                 "data" => [
                     "categories" => $categoryManager->findAll(["name_category", "DESC"]),
-                    "topics" => $topicManager->findAll(["title_topic", "ASC"]),
+                    "topics" => $topicManager->findAllAndCount(),
                     //"posts" => $postManager->findAll(),
                     "totalCountTopics" => $topicManager->getTotalCountTopics(),
                     "title" => "List of Topics"

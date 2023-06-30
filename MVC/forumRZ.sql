@@ -68,8 +68,8 @@ INSERT INTO `post` (`id_post`, `date_post`, `text_post`, `topic_id`, `user_id`) 
    (4, '2023-06-29 10:03:31', 'answer to topic 2', 2, 2),
    (5, '2023-06-29 10:04:32', '1st text for art, topic 3', 3, 3),
    (6, '2023-06-29 10:05:33', 'answer to topic 3', 3, 1),
-   (7, '2023-06-29 10:06:38', '1st text for politics, topic 4', 2, 1),
-   (8, '2023-06-29 10:07:39', 'answer to topic 4', 2, 3);
+   (7, '2023-06-29 10:06:38', '1st text for politics, topic 4', 4, 1),
+   (8, '2023-06-29 10:07:39', 'answer to topic 4', 4, 3);
 
 
 CREATE TABLE IF NOT EXISTS `like` (
