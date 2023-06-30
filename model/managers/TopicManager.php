@@ -27,6 +27,9 @@
                 );
         }
 
+
+
+
         public function getTotalCountTopics() {
             $sql = "SELECT COUNT(*) AS count 
                     FROM ".$this->tableName. "";
@@ -36,14 +39,18 @@
                 );
             
         }
-        public function listTopicsByCategory($id){
+        public function listTopicsByCategory(array $order = null, int $id){
+
+            $orderQuery = ($order) ?
+                        "ORDER BY ".$order[0]." ".$order[1] :
+                        "";
 
             $sql = "SELECT t.id_topic, t.title_topic, t.date_topic, t.user_id, t.category_id, COUNT(p.id_post) AS nbPosts 
                     FROM " .$this->tableName. " t, post p
                     WHERE p.topic_id = t.id_topic
                     AND t.category_id = :id
                     GROUP BY t.id_topic
-                    ORDER BY t.date_topic DESC";
+                    ORDER BY ".$orderQuery;
 
             return $this->getMultipleResults(
                 DAO::select($sql, ['id' => $id]),

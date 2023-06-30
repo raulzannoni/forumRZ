@@ -8,6 +8,11 @@ $categories = $result["data"]['categories'];
 
 $totalCountTopics = $result["data"]['totalCountTopics'];
 
+
+var_dump($topics);
+var_dump($posts);
+var_dump($categories);
+var_dump($totalCountTopics);
 ?>
 
 <div class="topicsMain">
@@ -18,7 +23,6 @@ $totalCountTopics = $result["data"]['totalCountTopics'];
             if(!empty($topics))
                 {
                     foreach($topics as $topic){
-                        var_dump($topic);
                         
                         ?>
                         <p><?=$topic->getTitle()?></p>

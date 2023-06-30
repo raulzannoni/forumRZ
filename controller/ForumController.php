@@ -22,6 +22,7 @@
                 "data" => [
                     "categories" => $categoryManager->findAll(["name_category", "DESC"]),
                     "topics" => $topicManager->findAll(["date_topic", "DESC"]),
+                    "nbTopicsEachCat" => $topicManager->findAllAndCount(),
                     "posts" => $postManager->findAll(["date_post", "DESC"]),
                     "totalCountTopics" => $topicManager->getTotalCountTopics(),
                     "title" => "List of Topics"

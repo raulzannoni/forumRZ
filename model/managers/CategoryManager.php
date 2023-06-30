@@ -13,7 +13,6 @@
         public function __construct(){
             parent::connect();
         }
-
         public function findAllAndCount() {
 
             $sql=  "SELECT c.id_category, c.name_category, COUNT(t.id_topic) AS nbTopics
