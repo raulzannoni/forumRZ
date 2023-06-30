@@ -36,5 +36,19 @@
                 );
             
         }
+        public function listTopicsByCategory($id){
+
+            $sql = "SELECT t.id_topic, t.title_topic, t.date_topic, t.user_id, t.category_id, COUNT(p.id_post) AS nbPosts 
+                    FROM " .$this->tableName. " t, post p
+                    WHERE p.topic_id = t.id_topic
+                    AND t.category_id = :id
+                    GROUP BY t.id_topic
+                    ORDER BY t.date_topic DESC";
+
+            return $this->getMultipleResults(
+                DAO::select($sql, ['id' => $id]),
+                $this->className
+            );
+        }
 
     }

@@ -8,7 +8,6 @@ $categories = $result["data"]['categories'];
 
 $totalCountTopics = $result["data"]['totalCountTopics'];
 
-var_dump($topics);
 ?>
 
 <div class="topicsMain">
@@ -16,15 +15,20 @@ var_dump($topics);
         <div class="topicsDiv">
             <?php
             
-            
-            foreach($topics as $topic){
-                var_dump($topic);
-                
-                ?>
-                <p><?=$topic->getTitle()?></p>
-                <?php
-            }
-            
+            if(!empty($topics))
+                {
+                    foreach($topics as $topic){
+                        var_dump($topic);
+                        
+                        ?>
+                        <p><?=$topic->getTitle()?></p>
+                        <?php
+                    }
+                }
+            else 
+                { ?>
+                    <p>Aucun résultat :/</p>
+        <?php   }
             ?>
         </div>
 </div>

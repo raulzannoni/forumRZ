@@ -10,30 +10,19 @@ var_dump($categories);
     <h1 class="titleUnderline">List of Categories</h1>
         <div class="categoriesDiv">
             <?php
-            
-            foreach($categories as $category){
-                if($category->getNbTopics() > 0) {
-                    ?>
-                    <a class="categoryLink" href="" ><?=ucfirst($category->getName())?>
-                        <br class="displayedPc">
-                            <span class="opacityPc">(</span>
-                                <?= $category->getNbTopics() ?>
-                            <span class="opacityPc">)</span>
-                        <br>
-                    </a>
-                    <?php
-                    }
-                else {
-                    ?>
-                    <p class="categoryLinkDisabled"><?= ucfirst($category->getName())?>
-                        <br class="displayedPc">
-                            <span class="opacityPc">(</span>
-                                <?= $category->getNbTopics() ?>
-                            <span class="opacityPc">)</span></p>
-                    <?php
-                    }
-                }
-            
-            ?>
+
+            foreach($categories as $category)
+                {  
+                    if($category->getNbTopics() > 0) { ?>
+                        <tr>
+                            <td><a class="categoryLink" href="index.php?ctrl=form&action=listTopicByCategory&id=<?= $category->getId() ?>"><?=$category->getName()?></a></td>
+                        </tr>
+                <?php   }
+                    else    { ?>
+                        <tr>
+                            <td><a class="categoryLinkDisabled"><?=$category->getName()?></a></td>
+                        </tr>
+                <?php   } 
+                }?>
         </div>
 </div>
