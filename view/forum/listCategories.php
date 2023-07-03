@@ -16,6 +16,7 @@ var_dump($categories);
                     if($category->getNbTopics() > 0) { ?>
                         <tr>
                             <td><a class="categoryLink" href="index.php?ctrl=form&action=listTopicByCategory&id=<?= $category->getId() ?>"><?=$category->getName()?></a></td>
+                            <td>(<?=$category->getNbTopics()?>)</td>
                         </tr>
                 <?php   }
                     else    { ?>

@@ -27,9 +27,6 @@
                 );
         }
 
-
-
-
         public function getTotalCountTopics() {
             $sql = "SELECT COUNT(*) AS count 
                     FROM ".$this->tableName. "";
@@ -37,7 +34,16 @@
             return $this->getSingleScalarResult(
                     DAO::select($sql)
                 );
-            
+        }
+
+        public function getTotalCountTopicsByCategory($id){
+            $sql = "SELECT COUNT(*) as count
+                    FROM ".$this->tableName." t
+                    WHERE t.category_id = :id";
+
+            return $this->getSingleScalarResult(
+                    DAO::select($sql, ["id" => $id])
+            );
         }
         public function listTopicsByCategory(array $order = null, int $id){
 

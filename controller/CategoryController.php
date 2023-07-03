@@ -29,7 +29,6 @@
                 "data" => [
                     "categories" => $categoryManager->findAllAndCount(),
                     "userConnectedRoleFromBdd" => $userConnectedRoleFromBdd
-
                 ]
             ];
         
