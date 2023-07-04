@@ -54,6 +54,7 @@
         foreach($topics as $topic)
             {?>
                 <p><?=$topic->getTitle()?></p>
+                <p><?=$topic->getNbPosts()?></p>
     <?php   }
         }
     else { ?>
