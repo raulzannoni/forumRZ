@@ -1,7 +1,7 @@
 <?php
 
     $topics = $result["data"]['topics'];
-    //$posts = $result["data"]['posts'];
+    $posts = $result["data"]['posts'];
     $categories = $result["data"]['categories'];
     $totalCountTopics = $result["data"]['totalCountTopics'];
 
@@ -57,9 +57,11 @@
     <br>
 
     <?php
+    var_dump($topics);
     if(!empty($topics)) {
         foreach($topics as $topic)
             {
+                var_dump($topic);
                 /*
                 $dateTopic = new DateTime(trim(str_replace("/", "-", $topic->getCreationdate()), ","), new DateTimeZone("+0000"));
 

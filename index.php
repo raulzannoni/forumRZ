@@ -2,6 +2,7 @@
     namespace App;
 
     define('DS', DIRECTORY_SEPARATOR);   // le caractère séparateur de dossier (/ ou \)
+    //define('DS', "/");
                                         // meilleure portabilité sur les différents systêmes.
     define('BASE_DIR', dirname(__FILE__).DS); // pour se simplifier la vie
     define('VIEW_DIR', BASE_DIR."view/");     //le chemin où se trouvent les vues

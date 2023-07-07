@@ -28,34 +28,31 @@
             <header>
                 <nav>
                     <div id="nav-left">
-                        <a href="index.php">Home</a>
-                        <?php
-                        if(App\Session::isAdmin()){
-                            ?>
-                            <a href="index.php?ctrl=home&action=users">User List</a>
-                            <?php
-                        }
-                        ?>
+                        <a id="titleSite" href="index.php">Forum</a>
                     </div>
                     <div id="nav-right">
                     <?php
-                        
                         if(App\Session::getUser()){
                             ?>
-                            <a href="/security/viewProfile.html"><span class="fas fa-user"></span>&nbsp;<?= App\Session::getUser()?></a>
-                            <a href="/security/logout.html">Déconnexion</a>
+                            <a href="index.php?ctrl=forum&action=listTopics">List of Topics</a>
+                            <a href="index.php?ctrl=category&action=listCategories">List of Categories</a>
+                            <div style="display:inline-flex">
+                                <a class="onglets" href="index.php?ctrl=security$action=viewProfile"><span class="fas fa-user"></span>&nbsp;<?= ucfirst(App\Session::getUser()->getNickname())?></a>
+                                <a class="onglets" href="index.php?ctrl=security$action=logout">Logout</a>
                             <?php
+                            if(App\Session::isAdmin()){
+                                ?>
+                                <a class="onglets" href="index.php?ctrl=home$action=users">Admin</a>
+                                <?php
+                            }
                         }
                         else{
                             ?>
-                            <a href="./view/security/login.php">Connexion</a>
-                            <a href="/security/register.html">Inscription</a>
+                            <a href="index.php?ctrl=security&action=login">Login</a>
+                            <a href="index.php?ctrl=security&action=subscribe">Subscribe</a>
                             <a href="index.php?ctrl=forum&action=listTopics">List of Topics</a>
-                            <a href="index.php?ctrl=category&action=index">List of Categories</a>
-                        <?php
-                        }
-                        
-                    ?>
+                            <a href="index.php?ctrl=forum&action=listCategories">List of Categories</a>
+                <?php   } ?>
                     </div>
                 </nav>
             </header>

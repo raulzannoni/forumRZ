@@ -15,7 +15,7 @@
         }
         public function findAllAndCount() {
 
-            $sql=  "SELECT c.id_category, c.name_category, COUNT(t.id_topic) AS nbTopics
+            $sql=  "SELECT c.id_category, c.name_category, COUNT(id_topic)AS nbTopics
                     FROM topic t, ".$this->tableName." c
                     WHERE c.id_category = t.category_id
                     GROUP BY c.id_category

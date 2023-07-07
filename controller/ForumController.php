@@ -11,7 +11,7 @@
     use Model\Managers\CategoryManager;
     
     class ForumController extends AbstractController implements ControllerInterface{
-        public function index(){
+        public function listTopics(){
 
             $topicManager = new TopicManager();
             $categoryManager = new CategoryManager();
@@ -29,7 +29,29 @@
                 ]
             ];
         }
+
+        public function listCategories(){
         
+            $categoryManager = new CategoryManager();
+            $userManager = new UserManager();
+
+            if(!empty($_SESSION["user"])) {
+                $userConnectedRoleFromBdd = $userManager->findOneById($_SESSION["user"]->getId())->getRole();
+            }
+            else {
+                $userConnectedRoleFromBdd = "notConnected";
+            }
+
+            return [
+                "view" => VIEW_DIR."forum/listCategories.php",
+                "data" => [
+                    "categories" => $categoryManager->findAllAndCount(),
+                    "userConnectedRoleFromBdd" => $userConnectedRoleFromBdd
+                ]
+            ];
+        
+        }
+        /*
         public function showAllTopicsByCategory($id){
 
             $topicManager = new TopicManager();
@@ -108,6 +130,6 @@
                 $_SESSION["error"] = "Invalid research";
                 $this->redirectTo("forum", "index");
             }
-        }   
+        } */  
 
     }
