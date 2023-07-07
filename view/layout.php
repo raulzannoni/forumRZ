@@ -48,8 +48,8 @@
                         }
                         else{
                             ?>
-                            <a href="index.php?ctrl=security&action=login">Login</a>
-                            <a href="index.php?ctrl=security&action=subscribe">Subscribe</a>
+                            <a href="index.php?ctrl=security&action=loginForm">Login</a>
+                            <a href="index.php?ctrl=security&action=registerForm">Register</a>
                             <a href="index.php?ctrl=forum&action=listTopics">List of Topics</a>
                             <a href="index.php?ctrl=forum&action=listCategories">List of Categories</a>
                 <?php   } ?>

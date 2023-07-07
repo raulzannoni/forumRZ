@@ -61,7 +61,7 @@
     if(!empty($topics)) {
         foreach($topics as $topic)
             {
-                var_dump($topic);
+                //var_dump($topic);
                 /*
                 $dateTopic = new DateTime(trim(str_replace("/", "-", $topic->getCreationdate()), ","), new DateTimeZone("+0000"));
 

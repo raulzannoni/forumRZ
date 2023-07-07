@@ -13,10 +13,15 @@
 
                 if(isset($fieldArray[1]) && $fieldArray[1] == "id"){
                     $manName = ucfirst($fieldArray[0])."Manager";
-                    //var_dump();
-                    $FQCName = "Model\Managers".DS.$manName;
                     
+                    //windows path
+                    //$FQCName = "Model\Managers".DS.$manName; 
+
+                    //MaCos path
+                    $FQCName = "Model\\Managers\\".$manName;
                     $man = new $FQCName();
+
+                    
                     $value = $man->findOneById($value);
                 }
                 //fabrication du nom du setter à appeler (ex: setMarque)
