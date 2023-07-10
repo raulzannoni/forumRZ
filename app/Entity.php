@@ -14,7 +14,7 @@
                 if(isset($fieldArray[1]) && $fieldArray[1] == "id"){
                     $manName = ucfirst($fieldArray[0])."Manager";
                     
-                    //windows path
+                    //Windows path
                     $FQCName = "Model\Managers".DS.$manName; 
 
                     //MaCos path

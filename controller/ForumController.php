@@ -12,7 +12,8 @@
     
     class ForumController extends AbstractController implements ControllerInterface{
         public function listTopics(){
-
+            session_start();
+            session_destroy();
             $topicManager = new TopicManager();
             $categoryManager = new CategoryManager();
             $postManager = new PostManager();

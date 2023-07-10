@@ -56,7 +56,9 @@
                             $this->redirectTo("home", "index");
                         }
                         else {
+                            
                             $_SESSION["error"] = "Incorrect password. Please try again...";
+                            
                             $this->redirectTo("security", "loginForm");
                             }
                     }
@@ -114,7 +116,7 @@
                             $this->redirectTo("security", "loginForm");
                         }
                         else {
-                            $_SESSION["error"] = "This nickname already exist!";
+                            $_SESSION["error"] = "This user's nickname already exists!";
                             $this->redirectTo("security", "registerForm");
                         }
                     }
@@ -132,9 +134,11 @@
         }
 
         public function logout() {
+            $_SESSION["success"] = "Successfully logout!";
+            var_dump($_SESSION["user"]);
             session_start();
             session_destroy();
-            $this->redirectTo("security", "loginForm");
+            $this->redirectTo("home", "index");
         }
 
         public function viewProfile($userId) {}
