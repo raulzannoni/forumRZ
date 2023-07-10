@@ -16,7 +16,7 @@
         <input type="password" name="passwordCheck" id="passwordCheck" required />
         <br>
 
-        <input class="loginSubmit" type="submit" value="Register" />
+        <input class="loginSubmit" type="submit" name="submit" value="Register" />
     </form>
 
     <p class="switchLoginForm">Already have an account?

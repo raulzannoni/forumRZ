@@ -83,61 +83,63 @@
             $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $passwordCheck = filter_input(INPUT_POST, "passwordCheck", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             
+            if($_POST["submit"]) {
+                if($nickname && $mail && $password && $passwordCheck){
+                    if ($password != $passwordCheck) {
+                        $_SESSION["error"] = "Passwords doesn't match";
+                        $this->redirectTo("security", "registerForm");
+                    }
+                    else {
 
-            // check si les filtres passent 
-            if($nickname && $mail && $password && $passwordCheck){
-                if ($password != $passwordCheck) {
-                    $_SESSION["error"] = "Passwords doesn't match";
-                    return [
-                        "view" => VIEW_DIR."home.php",
-                    ];
-                }
-                else {
-                    // Check if user exists (mail), false or objet NULL if still exist:
-                    $userMail = $userManager->findOneByMail($mail);
+                        // Check if user exists (mail), false or objet NULL if still exist:
+                        $userMail = $userManager->findOneByMail($mail);
 
-                    if(!$userMail) {
-                        //check if user exists (username):
-                        $userPseudo = $userManager->findOneByNickname($nickname);
-                        if(!$userPseudo) {
-                        
-                            // Hash Password:
-                            $finalPassword = password_hash($password, PASSWORD_DEFAULT);
+                        if(!$userMail) {
 
-                            // add user:
-                            $newUserId = $userManager->add(
-                                                        [
-                                                            "nickname" => $nickname, 
-                                                            "mail" => $mail, 
-                                                            "password" => $finalPassword
-                                                        ]);
+                            //check if user exists (username):
+                            $userPseudo = $userManager->findOneByNickname($nickname);
+                            if(!$userPseudo) {
+                            
+                                //Hash Password:
+                                $finalPassword = password_hash($password, PASSWORD_DEFAULT);
 
-                            $_SESSION["success"] = "Registration complete! Welcome to the FORUM ".$nickname."!";
-                            $this->redirectTo("security", "loginForm");
+                                // add user:
+                                $newUserId = $userManager->add(
+                                                            [
+                                                                "nickname" => $nickname, 
+                                                                "mail" => $mail, 
+                                                                "password" => $finalPassword
+                                                            ]);
+
+                                $_SESSION["success"] = "Registration complete! Welcome to the FORUM ".$nickname."!";
+                                Session::setUser($newUserId);
+                                $this->redirectTo("home", "index");
+                            }
+                            else {
+                                $_SESSION["error"] = "This user's nickname already exists!";
+                                $this->redirectTo("security", "registerForm");
+                            }
                         }
                         else {
-                            $_SESSION["error"] = "This user's nickname already exists!";
+                            $_SESSION["error"] = "This email is already taken!";
                             $this->redirectTo("security", "registerForm");
                         }
                     }
-                    else {
-                        $_SESSION["error"] = "This email is already taken!";
-                        $this->redirectTo("security", "registerForm");
-                    }
-
                 }
-            }
-            else {
-                $_SESSION["error"] = "Please enter a valide email...";
-                $this->redirectTo("security", "registerForm");
+                else {
+                    $_SESSION["error"] = "Please enter a valide email...";
+                    $this->redirectTo("security", "registerForm");
+                }
             }
         }
 
         public function logout() {
             $_SESSION["success"] = "Successfully logout!";
-            var_dump($_SESSION["user"]);
             session_start();
             session_destroy();
+            
+            //var_dump($_SESSION["user"]);
+            
             $this->redirectTo("home", "index");
         }
 
