@@ -10,6 +10,7 @@
                 private $mail;
                 private $password;
                 private $creationdate;
+                private $role;
                 
 
                 public function __construct($data){         
@@ -103,5 +104,25 @@
 
                         return $this;
                 }
+
+                /**
+                 * Get the value of role user
+                 */ 
+                public function getRole(){
+                        return $this->role;
+                }
+
+                /**
+                 * Set the value of role user
+                 *
+                 * @return  self
+                 */ 
+                public function setRole($role){
+                        $this->password = $role;
+
+                        return $this;
+                }
+
+
 
         }

@@ -38,7 +38,21 @@
         }
 
         public static function isAdmin(){
-            if(self::getUser() && self::getUser()->hasRole("ROLE_ADMIN")){
+            if(self::getUser() && self::getUser()->getRole() =="ROLE_ADMIN"){
+                return true;
+            }
+            return false;
+        }
+
+        public static function isMuted(){
+            if(self::getUser() && self::getUser()->getRole() =="MUTED"){
+                return true;
+            }
+            return false;
+        }
+
+        public static function isBanned(){
+            if(self::getUser() && self::getUser()->getRole() =="BANNED"){
                 return true;
             }
             return false;
