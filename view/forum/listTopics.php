@@ -5,7 +5,6 @@
     $categories = $result["data"]['categories'];
     $totalCountTopics = $result["data"]['totalCountTopics'];
 
-    $nbTopicsEachCat = $result["data"]['nbTopicsEachCat'];
 
     $categoryName = (isset($result["data"]["categoryName"])) ? 
         $result["data"]["categoryName"] :
@@ -16,8 +15,10 @@
         "";
 
     $resPluSing = ($totalCountTopics["count"] == 1) ? "result" : "results";
+    $postPluSing = ($totalCountTopics["count"] == 1) ? "post" : "posts";
 
-    
+
+    $dateNow = new DateTime(date("Y-m-d H:i:s"), new DateTimeZone("+0200"));
 
     if(!empty($result["data"]["title"]) && $result["data"]["title"] == "Search") 
         { ?>
@@ -53,18 +54,17 @@
     <br>
 
     <?php
-    var_dump($topics);
     if(!empty($topics)) {
         foreach($topics as $topic)
             {
-                //var_dump($topic);
-                /*
-                $dateTopic = new DateTime(trim(str_replace("/", "-", $topic->getCreationdate()), ","), new DateTimeZone("+0000"));
+                var_dump($topic);
+                
+                //$dateTopic = new DateTime(trim(str_replace("/", "-", $topic->getCreationdate()), ","), new DateTimeZone("+0000"));
+                
+                //$dateTopic = new DateTime($topic->getCreationdate(), new DateTimeZone("+0200"));
 
-                $dateNow = new DateTime(date("Y-m-d H:i:s"), new DateTimeZone("+0000"));
-
-                $dateDiff = $dateTopic->diff($dateNow);
-                $dateDiffText = $dateDiff->format("%dj %Hh %im ago");*/ 
+                //$dateDiff = $dateTopic->diff($dateNow);
+                //$dateDiffText = $dateDiff->format("%dj %Hh %im ago");
                 ?>
                 <a href="index.php?ctrl=forum&action=topicDetail&id=<?=$topic->getId()?>">
                     <div class="topicCard">
@@ -78,7 +78,7 @@
                         </div>
                     </div>
                 </a>
-                <p><?=$topic->getNbPosts()?></p>
+                <p>Number of posts in this topic: <?=$topic->getNbPosts()?> <?=$postPluSing?></p>
                 
     <?php   }
         }

@@ -15,7 +15,7 @@
         }
         public function findAllAndCount(){
 
-            $sql = "SELECT t.id_topic, t.title_topic, t.date_topic, t.category_id, t.user_id, COUNT(p.id_post) AS nbPosts
+            $sql = "SELECT t.id_topic, t.title_topic, CAST(t.date_topic AS DATETIME) AS date_topic, t.category_id, t.user_id, COUNT(p.id_post) AS nbPosts
                     FROM ".$this->tableName." t, post p
                     WHERE t.id_topic = p.topic_id
                     GROUP BY t.id_topic

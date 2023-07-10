@@ -12,8 +12,6 @@
     
     class ForumController extends AbstractController implements ControllerInterface{
         public function listTopics(){
-            session_start();
-            session_destroy();
             $topicManager = new TopicManager();
             $categoryManager = new CategoryManager();
             $postManager = new PostManager();
@@ -23,7 +21,7 @@
                 "data" => [
                     "categories" => $categoryManager->findAll(["name_category", "DESC"]),
                     "topics" => $topicManager->findAllAndCount(),
-                    "nbTopicsEachCat" => $topicManager->findAllAndCount(),
+                    //"nbTopicsEachCat" => $topicManager->findAllAndCount(),
                     "posts" => $postManager->findAll(["date_post", "DESC"]),
                     "totalCountTopics" => $topicManager->getTotalCountTopics(),
                     "title" => "List of Topics"
@@ -52,7 +50,7 @@
             ];
         
         }
-        /*
+        
         public function showAllTopicsByCategory($id){
 
             $topicManager = new TopicManager();
@@ -64,7 +62,7 @@
                     "categoryName" => $_GET['category_name'],
                     "category" => $categoryManager->findOneById($id),
                     "categories" => $categoryManager->findAll(["title_topic", "DESC"]),
-                    "topics" => $topicManager->listTopicsByCategory($id),
+                    "topics" => $topicManager->listTopicsByCategory(["date_topic", "DESC"], $id),
                     "nbTopicsEachCat" => $topicManager->findAllAndCount(),
                     "totalCountTopics" => $topicManager->getTotalCountTopics(),
                     "title" => "List of Topics by Category"
@@ -74,9 +72,9 @@
 
         public function topicDetail($id){
             $topicManager = new TopicManager();
-            //$postManager = new PostManager();
+            $postManager = new PostManager();
             //$likeManager = new LikeManager();
-            //$userManager = new UserManager();
+            $userManager = new UserManager();
             $categoryManager = new CategoryManager();
 
 
@@ -85,12 +83,13 @@
                 return [
                     "view" => VIEW_DIR."forum/topicDetail.php",
                     "data" => [
-                    //    "posts" => $postManager->findByTopicId($id),
-                        "topicDetail" => $topicManager->findOneById($id),
+                        "topic" => $topicManager->findOneById($id),
+                        "posts" => $postManager->findAllByTopic($id),
+                        "NbPosts" => $postManager->countAllPostsByTopic($id),
                     //    "topicPostsCount" => $postManager->countByTopic($id),
                     //    "likeList" => $likeManager->topicUserLikeList($_SESSION["user"]->getId(), $id),
                     //    "listLikesTopic" => $likeManager->listLikesTopic($id),
-                    //    "userConnectedRoleFromBdd" => $userManager->findOneById($_SESSION["user"]->getId())->getRole(),
+                        "userConnectedRoleFromBdd" => $userManager->findOneById($_SESSION["user"]->getId())->getRole(),
                         "categories" => $categoryManager->findAll()              
                     ]
                 ];
@@ -131,6 +130,6 @@
                 $_SESSION["error"] = "Invalid research";
                 $this->redirectTo("forum", "index");
             }
-        } */  
+        }  
 
     }

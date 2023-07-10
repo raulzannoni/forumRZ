@@ -1,10 +1,10 @@
 <?php
 
-    $topic = $result["data"]['topicDetail'];
+    $topic = $result["data"]['topic'];
 
     $posts = $result["data"]['posts'];
 
-    $postsCount = $result["data"]['topicPostsCount'];
+    $postsCount = $result["data"]['NbPosts'];
 
     if (!empty($result["data"]['categories'])) {
         $categories = $result["data"]['categories'];
@@ -13,7 +13,7 @@
     if (!empty($result["data"]['userConnectedRoleFromBdd'])) {
         $userConnectedRoleFromBdd = $result["data"]['userConnectedRoleFromBdd'];
     }
-
+/*
     if(App\Session::getUser()) {
         if($topic->getUser()->getId() == $_SESSION["user"]->getId()) {
             $authorTopicClass = "authorTopic";
@@ -25,14 +25,14 @@
     else {
         $authorTopicClass = "";
     }
-
+*/
 ?>
 
 <div class="topicDetailHeader">
 
         <div class="titleDiv">
             <h1 class="titleUnderline">Topic n°<?= $topic->getId()?></h1>
-            <span class=""><?= $statusText ?></span>
+            
         </div>
         <br>
         <div class="categoryAndNbPostsLine">
@@ -66,7 +66,7 @@
             <?php
             }
             ?>
-            <span class="topicDetailNbrPosts"><?= $postsCount ?> 
+            <span class="topicDetailNbrPosts">N° of posts: <?= "blqllo" ?>  
                 <i class="fa-solid fa-comments"></i>
             </span>
         </div>
@@ -75,7 +75,7 @@
         foreach ($posts as $post) {
             // Check si l'user est auteur du post
             if(App\Session::getUser()) {
-                if ($post->getUser()->getId() == $_SESSION["user"]->getId()) {
+                if ($post->getUserId() == $_SESSION["user"]->getId()) {
                     $authorPostClass = "authorPostClass";
                 }
                 else {
@@ -96,9 +96,9 @@
             ?>
 
             <span class="postInfos">by 
-                <a class="<?= $authorPostClass ?>" href="index.php?ctrl=security&action=viewUserProfile&id=<?= $post->getUser()->getId() ?>">
+                <a class="<?= $authorPostClass ?>" href="index.php?ctrl=security&action=viewUserProfile&id=<?= $post->getUserId() ?>">
                 <?= $post->getUser()->getUsername() ?>
-                </a>, le <?= $post->getCreationdate() ?>
+                </a>, at <?= $post->getCreationdate() ?>
             </span>
 
         </div>

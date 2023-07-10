@@ -13,6 +13,7 @@ var_dump($categories);
 
             foreach($categories as $category)
                 {  
+                    //var_dump($category);
                     if($category->getNbTopics() > 0) { ?>
                         <tr>
                             <td><a class="categoryLink" href="index.php?ctrl=form&action=listTopicByCategory&id=<?= $category->getId() ?>"><?=$category->getName()?></a></td>
