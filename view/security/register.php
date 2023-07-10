@@ -19,7 +19,7 @@
         <input class="loginSubmit" type="submit" value="Register" />
     </form>
 
-    <p class="switchLoginForm">Not registered yet?
+    <p class="switchLoginForm">Already have an account?
         <a href="index.php?ctrl=security&action=loginForm">Click here</a>
     </p>
 

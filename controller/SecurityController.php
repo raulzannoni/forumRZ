@@ -30,8 +30,47 @@
             ];
         }
 
-        public function viewProfile($userId) {}
-        public function viewUserProfile($userId) {}
+        public function login() {
+
+            $userManager = new UserManager();
+
+            $mail = filter_input(INPUT_POST, "mail", FILTER_VALIDATE_EMAIL);
+            $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            if(isset($_POST["submit"])) {
+
+                if($mail && $password){
+
+                    $dbPassword = $userManager->getPasswordByMail($mail);
+
+                    if($dbPassword !== false) {
+
+                        $hash = $dbPassword->getPassword();
+
+                        $user = $userManager->findOneByMail($mail);
+
+                        if($user->getNickname() && password_verify($password, $hash)){
+                            $_SESSION["success"] = "Login successfully complete! Welcome back ".$user->getNickname()."!";
+                            
+                            Session::setUser($user);
+                            $this->redirectTo("home", "index");
+                        }
+                        else {
+                            $_SESSION["error"] = "Incorrect password. Please try again...";
+                            $this->redirectTo("security", "loginForm");
+                            }
+                    }
+                    else {
+                        $_SESSION["error"] = "There is no account associated with this mail...";
+                        $this->redirectTo("security", "loginForm");
+                        }
+                }
+                else {
+                    $_SESSION["error"] = "Enter a valid email...";
+                    $this->redirectTo("security", "loginForm");
+                    }
+            }
+        }
 
         public function register() {
 
@@ -92,45 +131,12 @@
             }
         }
 
-        public function login() {
-
-            $userManager = new UserManager();
-
-            $mail = filter_input(INPUT_POST, "mail", FILTER_VALIDATE_EMAIL);
-            $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
-            if($mail && $password){
-
-                $dbPassword = $userManager->getPasswordByMail($mail);
-
-                if($dbPassword !== false) {
-
-                    $hash = $dbPassword->getPassword();
-
-                    $user = $userManager->findOneByMail($mail);
-
-                    if(password_verify($password, $hash)){
-                        $this->redirectTo("home", "index");
-                    }
-                    else {
-                        $_SESSION["error"] = "Incorrect password. Please try again...";
-                        $this->redirectTo("security", "loginForm");
-                        }
-                }
-                else {
-                    $_SESSION["error"] = "There is no account associated with this mail...";
-                    $this->redirectTo("security", "loginForm");
-                    }
-            }
-            else {
-                $_SESSION["error"] = "Enter a valid email...";
-                $this->redirectTo("security", "loginForm");
-                }
-        }
-
         public function logout() {
             session_start();
             session_destroy();
             $this->redirectTo("security", "loginForm");
         }
+
+        public function viewProfile($userId) {}
+        public function viewUserProfile($userId) {}
     }

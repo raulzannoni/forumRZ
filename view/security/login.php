@@ -7,9 +7,9 @@
         <label>Password</label>
         <input type="password" name="password" required>
         <br>
-        <input class="loginSubmit" type="submit" value="Login">
+        <input class="loginSubmit" type="submit" name="submit" value="Login">
     </form>
-    <p class="switchLoginForm">Already have an account?
+    <p class="switchLoginForm">Not registered yet?
         <a href="index.php?ctrl=security&action=registerForm">Click here</a>
     </p>
 
