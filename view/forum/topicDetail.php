@@ -106,6 +106,6 @@
     <?php
     }
     else {?>
-        <p class="postCard">Aucun post</p>
+        <p class="postCard">No posts</p>
 <?php   }?>
 

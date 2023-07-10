@@ -106,21 +106,17 @@
                                 $dateNow = new \DateTime("now", new \DateTimeZone("+0200"));
                                 $dateNowToString = $dateNow->format("Y-m-d H:i:s");
 
-                                $newUserId = $userManager->add(
-                                                            [
-                                                                "nickname_user" => $nickname, 
-                                                                "mail_user" => $mail, 
-                                                                "password_user" => $finalPassword,
-                                                                "date_user" =>
-                                                                $dateNowToString,
-                                                                "role_user" =>
-                                                                NULL
-                                                            ]);
-
-                                $newUser = $userManager->findOneByMail($mail);
+                                $userManager->add(
+                                                    [
+                                                        "nickname_user" => $nickname, 
+                                                        "mail_user" => $mail, 
+                                                        "password_user" => $finalPassword,
+                                                        "date_user" => $dateNowToString,
+                                                        "role_user" => NULL
+                                                    ]);
 
                                 $_SESSION["success"] = "Registration complete! Welcome to the FORUM ".$nickname."!";
-                                Session::setUser($newUser);
+                                Session::setUser($userManager->findOneByMail($mail));
                                 $this->redirectTo("home", "index");
                             }
                             else {
@@ -146,11 +142,30 @@
             session_start();
             session_destroy();
             
-            //var_dump($_SESSION["user"]);
-            
             $this->redirectTo("home", "index");
         }
 
-        public function viewProfile($userId) {}
+        public function viewProfile() {
+            
+            $userManager = new UserManager();
+            $topicManager = new TopicManager();
+            $postManager = new PostManager();
+
+            if(!empty($_SESSION["user"])) {
+                $userConnectedRoleFromBdd = $userManager->findOneById($_SESSION["user"]->getId())->getRole();
+            }
+            else {
+                $userConnectedRoleFromBdd = "notConnected";
+            }
+
+            return [
+                "view" => VIEW_DIR."security/viewProfile.php",
+                "data" => [
+                    "user" => $userManager->findOneById($_SESSION["user"]->getId()),
+                    "userConnectedRoleFromBdd" => $userConnectedRoleFromBdd
+                ]
+            ];
+
+        }
         public function viewUserProfile($userId) {}
     }

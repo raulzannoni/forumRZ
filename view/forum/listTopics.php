@@ -17,10 +17,6 @@
 
     $resPluSing = ($totalCountTopics["count"] == 1) ? "result" : "results";
 
-    //var_dump($topics);
-    //var_dump($posts);
-    //var_dump($categories);
-    //var_dump($totalCountTopics);
     
 
     if(!empty($result["data"]["title"]) && $result["data"]["title"] == "Search") 

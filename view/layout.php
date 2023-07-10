@@ -37,13 +37,13 @@
                             <a href="index.php?ctrl=forum&action=listTopics">List of Topics</a>
                             <a href="index.php?ctrl=category&action=listCategories">List of Categories</a>
                             <div style="display:inline-flex">
-                                <a class="onglets" href="index.php?ctrl=security$action=viewProfile"><span class="fas fa-user"></span>&nbsp;<?= ucfirst(App\Session::getUser()->getNickname())?></a>
-                                <a class="onglets" href="index.php?ctrl=security$action=logout">Logout</a>
+                                <a class="onglets" href="index.php?ctrl=security&action=viewProfile"><span class="fas fa-user"></span>&nbsp;<?= ucfirst(App\Session::getUser()->getNickname())?></a>
+                                <a class="onglets" href="index.php?ctrl=security&action=logout">Logout</a>
                             <?php
-                            //var_dump(App\Session::getUser()->getRole());
+                            var_dump(App\Session::getUser()->getRole());
                             if(App\Session::isAdmin()){
                                 ?>
-                                <a class="onglets" href="index.php?ctrl=home$action=users">Admin</a>
+                                <a class="onglets" href="index.php?ctrl=home&action=users">Admin</a>
                                 <?php
                             }
                         }
