@@ -103,16 +103,24 @@
                                 //Hash Password:
                                 $finalPassword = password_hash($password, PASSWORD_DEFAULT);
 
-                                // add user:
+                                $dateNow = new \DateTime("now", new \DateTimeZone("+0200"));
+                                $dateNowToString = $dateNow->format("Y-m-d H:i:s");
+
                                 $newUserId = $userManager->add(
                                                             [
-                                                                "nickname" => $nickname, 
-                                                                "mail" => $mail, 
-                                                                "password" => $finalPassword
+                                                                "nickname_user" => $nickname, 
+                                                                "mail_user" => $mail, 
+                                                                "password_user" => $finalPassword,
+                                                                "date_user" =>
+                                                                $dateNowToString,
+                                                                "role_user" =>
+                                                                NULL
                                                             ]);
 
+                                $newUser = $userManager->findOneByMail($mail);
+
                                 $_SESSION["success"] = "Registration complete! Welcome to the FORUM ".$nickname."!";
-                                Session::setUser($newUserId);
+                                Session::setUser($newUser);
                                 $this->redirectTo("home", "index");
                             }
                             else {
