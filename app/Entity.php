@@ -15,10 +15,10 @@
                     $manName = ucfirst($fieldArray[0])."Manager";
                     
                     //Windows path
-                    $FQCName = "Model\Managers".DS.$manName; 
+                    //$FQCName = "Model\Managers".DS.$manName; 
 
                     //MaCos path
-                    //$FQCName = "Model\\Managers\\".$manName;
+                    $FQCName = "Model\\Managers\\".$manName;
                     $man = new $FQCName();
 
                     

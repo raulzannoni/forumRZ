@@ -7,13 +7,14 @@ CREATE TABLE IF NOT EXISTS `user`(
    mail_user VARCHAR(50) NOT NULL,
    password_user VARCHAR(255) NOT NULL,
    date_user DATETIME DEFAULT CURRENT_TIMESTAMP,
+   role_user VARCHAR(50) DEFAULT "ROLE_USER",
    PRIMARY KEY(id_user)
 )ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-INSERT INTO `user` (`id_user`, `nickname_user`, `mail_user`, `password_user`, `date_user`) VALUES
-   (1, 'user_1', 'user_1@gmail.com', '1234', '2023-06-29 08:55:35'),
-   (2, 'user_2', 'user_2@gmail.com', '2345', '2023-06-29 08:56:02'),
-   (3, 'user_3', 'user_3@gmail.com', '3456', '2023-06-29 08:57:19');
+INSERT INTO `user` (`id_user`, `nickname_user`, `mail_user`, `password_user`, `date_user`, `role_user`) VALUES
+   (1, 'user_1', 'user_1@gmail.com', '$2y$10$U4cqUsDpfiu2OHX/a/Szwue9ws/cFrEDbq7tULilRrkebO1yHESTK', '2023-06-29 08:55:35', 'ROLE_ADMIN'),
+   (2, 'user_2', 'user_2@gmail.com', '$2y$10$tsMlyVY7qFlN12MqPIW97eYYdf5jHDE5BFzWbyw28yzCOWFsdbNge', '2023-06-29 08:56:02', 'ROLE_USER'),
+   (3, 'user_3', 'user_3@gmail.com', '$2y$10$hhidVqGiFoFkKE0wSpJsCOajSkbxGv.JEviMX.8VK8cOz167qO6SK', '2023-06-29 08:57:19', 'ROLE_USER');
 
 CREATE TABLE IF NOT EXISTS `category`(
    id_category INT NOT NULL AUTO_INCREMENT,
