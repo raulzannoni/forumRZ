@@ -21,8 +21,6 @@
                 "data" => [
                     "categories" => $categoryManager->findAll(["name_category", "DESC"]),
                     "topics" => $topicManager->findAllAndCount(),
-                    //"nbTopicsEachCat" => $topicManager->findAllAndCount(),
-                    "posts" => $postManager->findAll(["date_post", "DESC"]),
                     "totalCountTopics" => $topicManager->getTotalCountTopics(),
                     "title" => "List of Topics"
                 ]
@@ -48,7 +46,6 @@
                     "userConnectedRoleFromBdd" => $userConnectedRoleFromBdd
                 ]
             ];
-        
         }
         
         public function showAllTopicsByCategory($id){
@@ -77,34 +74,19 @@
             $userManager = new UserManager();
             $categoryManager = new CategoryManager();
 
-
-            // No list of likes if not connected
-            if(!empty($_SESSION["user"])) {
                 return [
                     "view" => VIEW_DIR."forum/topicDetail.php",
                     "data" => [
                         "topic" => $topicManager->findOneById($id),
-                        "posts" => $postManager->findAllByTopic($id),
+                        "post" => $postManager->findAllByTopic($id),
+                        "user" => $userManager->findAllUsersByTopic($id),
                         "NbPosts" => $postManager->countAllPostsByTopic($id),
-                    //    "topicPostsCount" => $postManager->countByTopic($id),
-                    //    "likeList" => $likeManager->topicUserLikeList($_SESSION["user"]->getId(), $id),
-                    //    "listLikesTopic" => $likeManager->listLikesTopic($id),
-                        "userConnectedRoleFromBdd" => $userManager->findOneById($_SESSION["user"]->getId())->getRole(),
+                        "lastPost" => $topicManager->getLastPostByTopic($id),
+                        "userConnectedRoleFromBdd" => $userManager->findOneById($_SESSION["user"]->getId())->getPassword(),
                         "categories" => $categoryManager->findAll()              
                     ]
                 ];
-            }
-            else {
-                return [
-                    "view" => VIEW_DIR."forum/topicDetail.php",
-                    "data" => [
-                    //    "posts" => $postManager->findByTopicId($id),
-                        "topicDetail" => $topicManager->findOneById($id),
-                    //    "topicPostsCount" => $postManager->countByTopic($id),
-                    //   "listLikesTopic" => $likeManager->listLikesTopic($id),
-                    ]
-                ];
-            }
+            
         }
 
         public function search() {
@@ -130,6 +112,108 @@
                 $_SESSION["error"] = "Invalid research";
                 $this->redirectTo("forum", "index");
             }
-        }  
+        }
+        
+        public function users(){
+            $userManager = new UserManager();
+
+            if($userManager->findOneById($_SESSION["user"]->getId())->getRole() == "ROLE_ADMIN") {
+                $users = $userManager->findAll();
+
+                return [
+                    "view" => VIEW_DIR."security/users.php",
+                    "data" => [
+                        "users" => $users
+                    ]
+                ];
+            }
+            else {
+                $_SESSION["error"] = "You are no more Administrator";
+                $this->redirectTo("security", "viewProfile");
+            } 
+        }
+
+        public function createTopic() {
+
+            $topicManager = new TopicManager();
+            $postManager = new PostManager();
+            $userManager = new UserManager();
+
+            if (!empty($_SESSION['user'])) {
+
+                $user = $_SESSION['user']->getId();
+
+                    if(!empty($_POST["title"]) && !empty($_POST["category"]) && !empty($_POST["firstMsg"])){ 
+                        
+                        $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                        $category = filter_input(INPUT_POST, "category", FILTER_VALIDATE_INT);
+                        $firstMsg = filter_input(INPUT_POST, "firstMsg", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    
+                        $newTopicId = $topicManager->add(["user_id" => $user, "title" => $title, "category_id" => $category]);
+                        $newPostId = $postManager->add(["user_id" => $user, "topic_id" => $newTopicId, "text" => $firstMsg]);
+                        
+                        // (lastPostId pas utilisé pour l'instant) update du lastPostId du topic apres insertion (ID vérifiés):
+                        // $topicManager->updateLastPostId($newTopicId, $newPostId);
+                        //$topicManager->updateLastPostIdMsg($newTopicId, $newPostId, $firstMsg);
+    
+                        $_SESSION["success"] = "Topic created successfully.";
+                        $this->redirectTo("forum", "topicDetail", $newTopicId);
+                    }
+                    else {
+                        $_SESSION["error"] = "You must fullfill all inputs.";
+                        $this->redirectTo("forum", "listTopics");
+                    }
+                
+            }
+            else {
+                $_SESSION["error"] = "You must be logged in to create topics";
+                $this->redirectTo("security", "loginForm");
+            } 
+        }
+
+        public function addPost() {
+
+            $topicManager = new TopicManager();
+            $postManager = new PostManager();
+            $userManager = new UserManager();
+
+            if (!empty($_SESSION['user'])) {
+                $user = $_SESSION['user']->getId();
+                $topicId = $_GET['topicId'];
+
+                // Pour checker le status de l'utilisateur connecté, on prend pas le status du SESSION["user"] car ne se met pas à jour si changement Status BDD en cours de session
+                if($userManager->findOneById($_SESSION["user"]->getId())->getStatus() == 0) {
+
+
+                    if (!empty($_POST["postText"])) {
+
+                        $msg = filter_input(INPUT_POST, "postText", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                        $newPostId = $postManager->add(["user_id" => $user, "text" => $msg, "topic_id" => $topicId]);
+
+                        // (lastPostId pas utilisé pour l'instant) update du lastPostId du topic apres insertion (ID vérifiés):
+                        // $topicManager->updateLastPostId($topicId, $newPostId);
+                        //$topicManager->updateLastPostIdMsg($topicId, $newPostId, $msg);
+
+
+                        $_SESSION["success"] = "Message added successfully.";
+                        $this->redirectTo("forum", "topicDetail", $topicId);
+                    }
+                    else {
+                        $_SESSION["error"] = "You must enter a message.";
+                        $this->redirectTo("forum", "topicDetail", $topicId);
+                    }
+                }
+                else {
+                    $_SESSION["error"] = "You are currently muted or banned by an administrator";
+                    $this->redirectTo("forum", "topicDetail", $topicId);
+                }
+
+            }
+            else {
+                $_SESSION["error"] = "You must be logged in to post something";
+                $this->redirectTo("security", "connexionForm");
+            }
+
+        }
 
     }

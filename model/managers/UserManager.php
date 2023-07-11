@@ -15,19 +15,30 @@
             parent::connect();
         }
 
-        public function findAllAndCount() {
-            $sql = "SELECT u.id_user, u.nickname_user AS nickname , u.password_user AS password, u.mail_user AS mail, u.date_user AS date
-                    FROM ".$this->tableName." u
-                    LEFT JOIN post p ON p.user_id = u.id_user
-                    
-                    GROUP BY u.id_user
-                    ORDER BY u.date_user DESC";
+        public function findAllUsersByTopic($id) {
+            $sql = "SELECT u.id_user, u.nickname_user AS nickname , u.password_user AS password, u.mail_user AS mail, u.date_user AS creationDate, p.topic_id, u.role_user AS role
+                    FROM ".$this->tableName." u, post p
+                    WHERE p.topic_id = :id
+                    AND p.user_id = u.id_user";
 
             return $this->getMultipleResults(
-                DAO::select($sql),
+                DAO::select($sql, ['id' => $id]),
                 $this->className
             );
         }
+
+        public function findUserById($id){
+
+            $sql = "SELECT id_user AS id, nickname_user as nickname, mail_user as mail, date_user as creationdate, role_user as role
+                    FROM ".$this->tableName."
+                    WHERE id_user = :id";
+
+            return $this->getOneOrNullResult(
+                DAO::select($sql, ['id' => $id], false), 
+                $this->className
+            );
+        }
+
 
         public function findOneByMail($mail){
 
@@ -42,7 +53,8 @@
 
         public function findOneByNickname($nickname){
 
-            $sql = "SELECT * FROM ".$this->tableName."
+            $sql = "SELECT id_user AS id, nickname_user as nickname, mail_user as mail, date_user as creationdate, role_user as role
+                    FROM ".$this->tableName."
                     WHERE nickname_user = :nickname";
 
             return $this->getOneOrNullResult(

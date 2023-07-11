@@ -40,7 +40,6 @@
                                 <a class="onglets" href="index.php?ctrl=security&action=viewProfile"><span class="fas fa-user"></span>&nbsp;<?= ucfirst(App\Session::getUser()->getNickname())?></a>
                                 <a class="onglets" href="index.php?ctrl=security&action=logout">Logout</a>
                             <?php
-                            var_dump(App\Session::getUser()->getRole());
                             if(App\Session::isAdmin()){
                                 ?>
                                 <a class="onglets" href="index.php?ctrl=home&action=users">Admin</a>

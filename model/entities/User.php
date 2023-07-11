@@ -11,7 +11,6 @@
                 private $password;
                 private $creationdate;
                 private $role;
-                
 
                 public function __construct($data){         
                         $this->hydrate($data);        
@@ -77,16 +76,6 @@
                         return $this;
                 }
 
-                public function getCreationdate(){
-                        $formattedDate = $this->creationdate->format("d/m/Y, H:i:s");
-                        return $formattedDate;
-                }
-
-                public function setCreationdate($date){
-                        $this->creationdate = new \DateTime($date);
-                        return $this;
-                }
-
                 /**
                  * Get the value of password
                  */ 
@@ -104,6 +93,19 @@
 
                         return $this;
                 }
+
+                public function getCreationdate(){
+                        //$formattedDate = $this->creationdate->format("d/m/Y, H:i:s");
+                        //return $formattedDate;
+                        return $this->creationdate;
+                }
+
+                public function setCreationdate($date){
+                        $this->creationdate = new \DateTime($date);
+                        return $this;
+                }
+
+                
 
                 /**
                  * Get the value of role user

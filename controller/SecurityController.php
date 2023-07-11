@@ -161,11 +161,34 @@
             return [
                 "view" => VIEW_DIR."security/viewProfile.php",
                 "data" => [
-                    "user" => $userManager->findOneById($_SESSION["user"]->getId()),
+                    "user" => $userManager->findUserById($_SESSION["user"]->getId()),
                     "userConnectedRoleFromBdd" => $userConnectedRoleFromBdd
                 ]
             ];
 
         }
-        public function viewUserProfile($userId) {}
+        public function viewUserProfile($userId) {
+            $topicManager = new TopicManager();
+            $userManager = new UserManager();
+            $postManager = new PostManager();
+
+
+            if(!empty($_SESSION["user"])) {
+                $userConnectedRoleFromBdd = $userManager->findOneById($_SESSION["user"]->getId())->getRole();
+            }
+            else {
+                $userConnectedRoleFromBdd = "notConnected";
+            }
+
+            return [
+                "view" => VIEW_DIR."security/viewProfile.php",
+                "data" => [
+                    "user" => $userManager->findUserById($userId),
+                    "userTopicList" => $topicManager->getTopicsByUser($userId),
+                    "userPostList" => $postManager->getPostsByUser($userId),
+                    "userConnectedRoleFromBdd" => $userConnectedRoleFromBdd,
+                ]
+            ];
+        
+        }
     }
